@@ -11,7 +11,7 @@ import fetch from 'node-fetch'
 /**
  * Encapsulates a controller.
  */
-export class IssuesController {
+export class Controller {
   /**
    * Displays the index page.
    *
@@ -34,14 +34,14 @@ export class IssuesController {
    * @param {object} res - Express response object.
    * @param {Function} next - Express next middleware function.
    */
-    async gitlab (req, res, next) {
+    async gitLab (req, res, next) {
     try {
       //res.render('crud-snippets/index')
       //console.log('gitlab')
       const APP_ID = process.env.APP_ID
       const REDIRECT_URI = process.env.REDIRECT_URI
       const STATE = ''
-      const REQUESTED_SCOPES = 'read_api&read_user&sudo'
+      const REQUESTED_SCOPES = 'read_user'
       res.redirect(`https://gitlab.lnu.se/oauth/authorize?client_id=${APP_ID}&redirect_uri=${REDIRECT_URI}&response_type=code&state=${STATE}&scope=${REQUESTED_SCOPES}`)
     } catch (error) {
       next(error)
@@ -97,8 +97,6 @@ export class IssuesController {
           })
     
           const activitiesResponseJSON = await activitiesResponse.json()
-    
-          //console.log(activitiesResponseJSON)
     
           let i = 0
           activitiesResponseJSON.forEach(responseEvent => {

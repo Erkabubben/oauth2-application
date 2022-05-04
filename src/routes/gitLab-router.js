@@ -7,13 +7,13 @@
  */
 
 import express from 'express'
-import { IssuesController } from '../controllers/issues-controller.js'
+import { Controller } from '../controllers/controller.js'
 
 export const router = express.Router()
 
-const controller = new IssuesController()
+const controller = new Controller()
 
 // Map HTTP verbs and route paths to controller actions.
 router.get('/', controller.index)
-router.get('/gitlab', controller.gitlab)
+router.get('/gitLab', controller.gitLab)
 router.get('/user', controller.user)
