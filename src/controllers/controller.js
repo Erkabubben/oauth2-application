@@ -21,7 +21,7 @@ export class Controller {
    */
    async index (req, res, next) {
     try {
-      res.render('real-time-issues/index')
+      res.render('gitlab-oauth/index')
     } catch (error) {
       next(error)
     }
@@ -36,8 +36,6 @@ export class Controller {
    */
     async gitLab (req, res, next) {
     try {
-      //res.render('crud-snippets/index')
-      //console.log('gitlab')
       const APP_ID = process.env.APP_ID
       const REDIRECT_URI = process.env.REDIRECT_URI
       const STATE = ''
@@ -122,7 +120,7 @@ export class Controller {
 
         const loggedOn = true
 
-        res.render('real-time-issues/user', { userResponseJSON, events, loggedOn })
+        res.render('gitlab-oauth/user', { userResponseJSON, events, loggedOn })
       } catch (error) {
         next(error)
       }
@@ -162,179 +160,5 @@ export class Controller {
         }
         i++
       });
-  }
-
-  
-
-  /**
-   * Determines whether the incoming Issue event Webhook is caused by
-   * a whole new Issue being created, or an existing Issue being updated.
-   * Then, sends a Socket.io event to all subscribers.
-   *
-   * @param {object} req - Express request object.
-   * @param {object} res - Express response object.
-   */
-  async determineWebhookType (req, res) {
-    if (req.body.changes.created_at !== undefined) { // CREATE ISSUE
-      // Socket.io: Send the created issue to all subscribers.
-      res.io.emit('new-issue', {
-        title: req.body.title,
-        description: req.body.description,
-        issueid: req.body.issueid,
-        done: req.body.done,
-        userAvatar: req.body.userAvatar,
-        userUsername: req.body.userUsername,
-        userFullname: req.body.userFullname
-      })
-    } else { // UPDATE ISSUE
-      // Socket.io: Send the updated issue to all subscribers.
-      res.io.emit('update-issue', {
-        title: req.body.title,
-        description: req.body.description,
-        issueid: req.body.issueid,
-        done: req.body.done,
-        userAvatar: req.body.userAvatar,
-        userUsername: req.body.userUsername,
-        userFullname: req.body.userFullname
-      })
-    }
-
-    // Webhook: Call is from hook. Respond to hook, skip redirect and flash.
-    if (req.headers['x-gitlab-event']) {
-      res.status(200).send('Hook accepted')
-    }
-  }
-
-  /**
-   * Displays a form for editing an Issue.
-   *
-   * @param {object} req - Express request object.
-   * @param {object} res - Express response object.
-   * @param {Function} next - Express next middleware function.
-   */
-  async edit (req, res, next) {
-    try {
-      // Handlebars variables setup - retrieves Issue data from GitLab.
-      const url = process.env.GITLAB_API_PROJECT_ISSUES_URL + '/' + req.params.issueid
-      const response = await fetch(url, {
-        method: 'GET',
-        headers: {
-          Authorization: 'Bearer ' + process.env.ACCESS_TOKEN
-        }
-      })
-      // If Issue doesn't exist, throw error.
-      if (response.status !== 200) {
-        const error = new Error('404 Not Found')
-        error.statusCode = 404
-        throw error
-      }
-      const responseJSON = await response.json()
-      // Parse response data to an Issue object
-      const issue = {
-        title: responseJSON.title,
-        description: responseJSON.description,
-        issueid: responseJSON.iid,
-        userAvatar: responseJSON.author.avatar_url,
-        userUsername: responseJSON.author.username,
-        userFullname: responseJSON.author.name
-      }
-      if (responseJSON.closed_at !== null) issue.done = true
-      else issue.done = false
-      // Render form based on Issue data.
-      res.render('real-time-issues/issues-edit', { issue })
-    } catch (error) {
-      next(error)
-    }
-  }
-
-  /**
-   * Sends a PUT request to the GitLab API to update the Issue based on the
-   * Edit form data.
-   *
-   * @param {object} req - Express request object.
-   * @param {object} res - Express response object.
-   * @param {Function} next - Express next middleware function.
-   */
-  async update (req, res, next) {
-    try {
-      const url = process.env.GITLAB_API_PROJECT_ISSUES_URL + '/' + req.params.issueid + '?title=' + req.body.title + '&description=' + req.body.description
-      const response = await fetch(url, {
-        method: 'PUT',
-        headers: {
-          Authorization: 'Bearer ' + process.env.ACCESS_TOKEN
-        }
-      })
-      // If Issue doesn't exist, throw error.
-      if (response.status !== 200) {
-        const error = new Error('404 Not Found')
-        error.statusCode = 404
-        throw error
-      }
-      // Redirect and show a flash message.
-      req.session.flash = { type: 'success', text: 'Issue #' + req.params.issueid + ' was updated.' }
-      res.redirect('../')
-    } catch (error) {
-      next(error)
-    }
-  }
-
-  /**
-   * Sends a PUT request to the GitLab API to close an open Issue.
-   *
-   * @param {object} req - Express request object.
-   * @param {object} res - Express response object.
-   * @param {Function} next - Express next middleware function.
-   */
-  async close (req, res, next) {
-    try {
-      const url = process.env.GITLAB_API_PROJECT_ISSUES_URL + '/' + req.params.issueid + '?state_event=close'
-      const response = fetch(url, {
-        method: 'PUT',
-        headers: {
-          Authorization: 'Bearer ' + process.env.ACCESS_TOKEN
-        }
-      })
-      // If Issue doesn't exist, throw error.
-      if (response.status !== 200) {
-        const error = new Error('404 Not Found')
-        error.statusCode = 404
-        throw error
-      }
-    } catch (error) {
-      next(error)
-    }
-
-    // Skip redirect and flash.
-    res.status(200).send()
-  }
-
-  /**
-   * Sends a PUT request to the GitLab API to re-open a closed Issue.
-   *
-   * @param {object} req - Express request object.
-   * @param {object} res - Express response object.
-   * @param {Function} next - Express next middleware function.
-   */
-  async reopen (req, res, next) {
-    try {
-      const url = process.env.GITLAB_API_PROJECT_ISSUES_URL + '/' + req.params.issueid + '?state_event=reopen'
-      const response = fetch(url, {
-        method: 'PUT',
-        headers: {
-          Authorization: 'Bearer ' + process.env.ACCESS_TOKEN
-        }
-      })
-      // If Issue doesn't exist, throw error.
-      if (response.status !== 200) {
-        const error = new Error('404 Not Found')
-        error.statusCode = 404
-        throw error
-      }
-    } catch (error) {
-      next(error)
-    }
-
-    // Skip redirect and flash.
-    res.status(200).send()
   }
 }

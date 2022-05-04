@@ -6,6 +6,10 @@ a#gitlab-button {
   text-align: center;
 }
 
+.activities-table tr th, .activities-table tr td {
+  width: 160px;
+}
+
 body {
   font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
   margin: 0px;

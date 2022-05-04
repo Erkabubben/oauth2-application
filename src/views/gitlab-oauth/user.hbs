@@ -2,14 +2,14 @@
 
 <img src="{{userResponseJSON.avatar_url}}">
 <p>
-    Name: {{userResponseJSON.name}}<br>
-    Username: {{userResponseJSON.username}}<br>
-    User ID: {{userResponseJSON.id}}<br>
-    Email: {{userResponseJSON.email}}<br>
-    Last Activity: {{userResponseJSON.last_activity_on}}<br>
+    <b>Name: </b>{{userResponseJSON.name}}<br>
+    <b>Username: </b>{{userResponseJSON.username}}<br>
+    <b>User ID: </b>{{userResponseJSON.id}}<br>
+    <b>Email: </b>{{userResponseJSON.email}}<br>
+    <b>Last Activity: </b>{{userResponseJSON.last_activity_on}}<br>
 </p>
 
-<table>
+<table class="activities-table">
     {{#if events.length }}
     <tr>
         <th>Date</th>
