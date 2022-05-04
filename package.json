@@ -1,7 +1,7 @@
 {
-  "name": "assignment-b2-realtime-web-application",
+  "name": "assignment-w1-oauth",
   "version": "1.0.0",
-  "description": "1DV026 - Examination Assignment Module B - Real Time Web Application",
+  "description": "1DV027 - Examination Assignment Module B - Real Time Web Application",
   "type": "module",
   "main": "src/server.js",
   "scripts": {
@@ -10,7 +10,7 @@
     "lint": "npx eslint ./src || exit 0",
     "lint:fix": "npx eslint ./src --fix || exit 0"
   },
-  "repository": "git@gitlab.lnu.se:1dv026/student/elimk06/assignment-b2-realtime-web-application.git",
+  "repository": "git@gitlab.lnu.se:1dv027/student/elimk06/assignment-wt1-oauth.git",
   "contributors": [
     "Mats Loock <mats.loock@lnu.se>",
     "Erik Lindholm <elimk06@student.lnu.se>"
@@ -25,8 +25,7 @@
     "http-errors": "^1.8.0",
     "moment": "^2.29.1",
     "morgan": "^1.10.0",
-    "node-fetch": "^2.6.1",
-    "socket.io": "^3.1.1"
+    "node-fetch": "^2.6.1"
   },
   "devDependencies": {
     "@lnu/eslint-config": "^1.1.2",

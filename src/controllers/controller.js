@@ -55,6 +55,7 @@ export class Controller {
    */
   async user (req, res, next) {
     try {
+      // Uses the return code provided in the redirect URI to request an access token from GitLab.
       const APP_ID = process.env.APP_ID
       const APP_SECRET = process.env.APP_SECRET
       const RETURNED_CODE = req.query.code
@@ -67,6 +68,7 @@ export class Controller {
       })
       const tokenResponseJSON = await tokenResponse.json()
 
+      // Requests the authenticated user's basic user info from the API.
       const userUrl = 'https://gitlab.lnu.se/api/v4/user'
 
       const userResponse = await fetch(userUrl, {
@@ -87,6 +89,7 @@ export class Controller {
        * @returns {Promise} - A promise.
        */
       async function getEvents (events, page) {
+        // Requests a page of the authenticated user's latest Events.
         const activitiesUrl = `https://gitlab.lnu.se/api/v4/events?per_page=100&page=${page}`
 
         const activitiesResponse = await fetch(activitiesUrl, {
@@ -98,6 +101,7 @@ export class Controller {
 
         const activitiesResponseJSON = await activitiesResponse.json()
 
+        // Iterates the Events in the response and adds them to the Events array.
         let i = 0
         activitiesResponseJSON.forEach(responseEvent => {
           if (events.length < 101) {
@@ -117,10 +121,13 @@ export class Controller {
 
       await getEvents(events, 1)
 
+      // If array contains less than 101 Events, request another 100 events.
       if (events.length < 101) {
         await getEvents(events, 2)
       }
 
+      // The loggedOn bool determines whether the Back button should be displayed at the
+      // top of the page.
       const loggedOn = true
 
       res.render('gitlab-oauth/user', { userResponseJSON, events, loggedOn })
