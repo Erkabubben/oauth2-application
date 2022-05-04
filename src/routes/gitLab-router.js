@@ -1,5 +1,5 @@
 /**
- * Routes for the Real Time Issues application.
+ * Routes for the GitLab OAuth application.
  *
  * @author Erik Lindholm <elimk06@student.lnu.se>
  * @author Mats Loock

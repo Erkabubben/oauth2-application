@@ -1,5 +1,5 @@
 /**
- * Module for the IssuesController.
+ * Module for the Controller.
  *
  * @author Erik Lindholm <elimk06@student.lnu.se>
  * @author Mats Loock
@@ -28,7 +28,7 @@ export class Controller {
   }
 
   /**
-   * Displays the index page.
+   * Redirects the user to GitLab's login page when clicking the button.
    *
    * @param {object} req - Express request object.
    * @param {object} res - Express response object.
@@ -47,7 +47,7 @@ export class Controller {
   }
 
   /**
-   * Displays the index page.
+   * Displays the GitLab User Info page.
    *
    * @param {object} req - Express request object.
    * @param {object} res - Express response object.
