@@ -41,7 +41,7 @@ export class IssuesController {
       const APP_ID = process.env.APP_ID
       const REDIRECT_URI = process.env.REDIRECT_URI
       const STATE = ''
-      const REQUESTED_SCOPES = 'read_user'
+      const REQUESTED_SCOPES = 'read_api&read_user&sudo'
       res.redirect(`https://gitlab.lnu.se/oauth/authorize?client_id=${APP_ID}&redirect_uri=${REDIRECT_URI}&response_type=code&state=${STATE}&scope=${REQUESTED_SCOPES}`)
     } catch (error) {
       next(error)
@@ -82,11 +82,22 @@ export class IssuesController {
           }
         })
 
-        /*const userResponse = await fetch(userUrl + `?access_token=${tokenResponseJSON.access_token}`, {
-          method: 'GET'
-        })*/
+        const userResponseJSON = await userResponse.json()
 
-        console.log(await userResponse.text())
+        console.log(userResponseJSON)
+
+        const activitiesUrl = 'https://gitlab.lnu.se/api/v4/events'
+
+        const activitiesResponse = await fetch(activitiesUrl, {
+          method: 'GET',
+          headers: {
+            Authorization: 'Bearer ' + tokenResponseJSON.access_token
+          }
+        })
+
+        const activitiesResponseJSON = await activitiesResponse.json()
+
+        console.log(activitiesResponseJSON)
 
         res.render('real-time-issues/user')
       } catch (error) {
