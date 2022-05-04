@@ -64,11 +64,29 @@ export class IssuesController {
         const parameters = `client_id=${APP_ID}&client_secret=${APP_SECRET}&code=${RETURNED_CODE}&grant_type=authorization_code&redirect_uri=${REDIRECT_URI}`
 
         const url = `https://gitlab.lnu.se/oauth/token?` + parameters
-        const response = await fetch(url, {
+        const tokenResponse = await fetch(url, {
           method: 'POST'
         })
+        const tokenResponseJSON = await tokenResponse.json()
 
-        console.log(await response.text())
+        console.log(tokenResponseJSON)
+
+        const userUrl = 'https://gitlab.lnu.se/api/v4/user'
+
+        console.log(userUrl + `?access_token=${tokenResponseJSON.access_token}`)
+
+        const userResponse = await fetch(userUrl, {
+          method: 'GET',
+          headers: {
+            Authorization: 'Bearer ' + tokenResponseJSON.access_token
+          }
+        })
+
+        /*const userResponse = await fetch(userUrl + `?access_token=${tokenResponseJSON.access_token}`, {
+          method: 'GET'
+        })*/
+
+        console.log(await userResponse.text())
 
         res.render('real-time-issues/user')
       } catch (error) {
