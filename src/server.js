@@ -14,10 +14,7 @@ import logger from 'morgan'
 import { dirname, join } from 'path'
 import { fileURLToPath } from 'url'
 import { router } from './routes/router.js'
-
-// Socket.io: To add Socket.io support
 import http from 'http'
-import { Server } from 'socket.io'
 
 /**
  * The main function of the application.
