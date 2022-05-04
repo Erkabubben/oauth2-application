@@ -98,7 +98,7 @@ export class IssuesController {
     
           const activitiesResponseJSON = await activitiesResponse.json()
     
-          console.log(activitiesResponseJSON)
+          //console.log(activitiesResponseJSON)
     
           let i = 0
           activitiesResponseJSON.forEach(responseEvent => {
@@ -122,7 +122,9 @@ export class IssuesController {
         if (events.length < 101)
           await getEvents(events, 2)
 
-        res.render('real-time-issues/user', { userResponseJSON, events })
+        const loggedOn = true
+
+        res.render('real-time-issues/user', { userResponseJSON, events, loggedOn })
       } catch (error) {
         next(error)
       }

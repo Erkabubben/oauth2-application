@@ -17,8 +17,3 @@ const controller = new IssuesController()
 router.get('/', controller.index)
 router.get('/gitlab', controller.gitlab)
 router.get('/user', controller.user)
-
-router.get('/:issueid/edit', controller.edit)
-router.post('/:issueid/close', controller.close)
-router.post('/:issueid/reopen', controller.reopen)
-router.post('/:issueid/update', controller.update)
