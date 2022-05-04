@@ -38,8 +38,8 @@ export class IssuesController {
     try {
       //res.render('crud-snippets/index')
       //console.log('gitlab')
-      const APP_ID = '590066e1b8a3c067e1632b0532e26bf0c06b0c0e2e14fc53e882ccf6fd5c6351'
-      const REDIRECT_URI = 'http://localhost:8082/user'
+      const APP_ID = process.env.APP_ID
+      const REDIRECT_URI = process.env.REDIRECT_URI
       const STATE = ''
       const REQUESTED_SCOPES = 'read_user'
       res.redirect(`https://gitlab.lnu.se/oauth/authorize?client_id=${APP_ID}&redirect_uri=${REDIRECT_URI}&response_type=code&state=${STATE}&scope=${REQUESTED_SCOPES}`)
@@ -57,17 +57,18 @@ export class IssuesController {
    */
      async user (req, res, next) {
       try {
-        const APP_ID = '590066e1b8a3c067e1632b0532e26bf0c06b0c0e2e14fc53e882ccf6fd5c6351'
-        const APP_SECRET = ''
-        const RETURNED_CODE = ''
-        const authorization_code = req.params.code
-        const REDIRECT_URI = 'http://localhost:8082/user'
-        parameters = `client_id=${APP_ID}&client_secret=${APP_SECRET}&code=${RETURNED_CODE}&grant_type=${authorization_code}&redirect_uri=${REDIRECT_URI}`
+        const APP_ID = process.env.APP_ID
+        const APP_SECRET = process.env.APP_SECRET
+        const RETURNED_CODE = req.query.code
+        const REDIRECT_URI = process.env.REDIRECT_URI
+        const parameters = `client_id=${APP_ID}&client_secret=${APP_SECRET}&code=${RETURNED_CODE}&grant_type=authorization_code&redirect_uri=${REDIRECT_URI}`
 
-        const url = `https://gitlab.lnu.se/oauth/authorize?` + parameters
+        const url = `https://gitlab.lnu.se/oauth/token?` + parameters
         const response = await fetch(url, {
           method: 'POST'
         })
+
+        console.log(await response.text())
 
         res.render('real-time-issues/user')
       } catch (error) {
