@@ -97,9 +97,14 @@ export class IssuesController {
 
         const activitiesResponseJSON = await activitiesResponse.json()
 
-        console.log(activitiesResponseJSON)
+        //console.log(activitiesResponseJSON)
 
-        res.render('real-time-issues/user')
+        const userInfo = {
+          name: userResponseJSON.name,
+          username: userResponseJSON.username,
+        }
+
+        res.render('real-time-issues/user', { userResponseJSON })
       } catch (error) {
         next(error)
       }
