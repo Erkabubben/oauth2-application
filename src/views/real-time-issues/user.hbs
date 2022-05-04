@@ -9,20 +9,24 @@
     Last Activity: {{userResponseJSON.last_activity_on}}<br>
 </p>
 
-<div id="issue-list">
+<table>
     {{#if events.length }}
+    <tr>
+        <th>Date</th>
+        <th>Time</th>
+        <th>Activity</th>
+    </tr>
     {{#each events}}
-    <div class="issue">
-        <div class="issue-header">
-            <h3>{{this.created_at}}</h3>
-        </div>
-        <div class="issue-body"><p>{{this.action_name}}</p></div>
-    </div>
+    <tr>
+        <td>{{this.created_at_date}}</td>
+        <td>{{this.created_at_time}}</td>
+        <td>{{this.id}} {{this.action_name}}</td>
+    </tr>
     {{/each}}
     {{else}}
     <p>No activities yet.</p>
     {{/if}}
-</div>
+</table>
 
 <template id="issue-template">
     <div class="issue-header">

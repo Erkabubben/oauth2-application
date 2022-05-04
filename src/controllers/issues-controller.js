@@ -86,41 +86,85 @@ export class IssuesController {
 
         console.log(userResponseJSON)
 
-        const activitiesUrl = 'https://gitlab.lnu.se/api/v4/events?per_page=100'
-
-        const activitiesResponse = await fetch(activitiesUrl, {
-          method: 'GET',
-          headers: {
-            Authorization: 'Bearer ' + tokenResponseJSON.access_token,
-            scope: 100
-          }
-        })
-
-        const activitiesResponseJSON = await activitiesResponse.json()
-
-        console.log(activitiesResponseJSON)
+        async function getEvents (events, page) {
+          const activitiesUrl = `https://gitlab.lnu.se/api/v4/events?per_page=100&page=${page}`
+    
+          const activitiesResponse = await fetch(activitiesUrl, {
+            method: 'GET',
+            headers: {
+              Authorization: 'Bearer ' + tokenResponseJSON.access_token
+            }
+          })
+    
+          const activitiesResponseJSON = await activitiesResponse.json()
+    
+          console.log(activitiesResponseJSON)
+    
+          let i = 0
+          activitiesResponseJSON.forEach(responseEvent => {
+            if (events.length < 101) {
+              const event = {
+                action_name: responseEvent.action_name,
+                created_at_date: responseEvent.created_at.substring(0, 10),
+                created_at_time: responseEvent.created_at.substring(11, 16),
+                id: i
+              }
+              events.push(event)
+            }
+            i++
+          });
+        }
 
         const events = []
 
-        let i = 0
-        activitiesResponseJSON.forEach(responseEvent => {
-          if (i < 101) {
-            const event = {
-              action_name: responseEvent.action_name,
-              created_at: responseEvent.created_at
-            }
-            events.push(event)
-          }
-          i++
-        });
+        await getEvents(events, 1)
 
-        console.log('events: ' + events.length)
+        if (events.length < 101)
+          await getEvents(events, 2)
 
         res.render('real-time-issues/user', { userResponseJSON, events })
       } catch (error) {
         next(error)
       }
     }
+
+  /**
+   * Displays the index page.
+   *
+   * @param {object} req - Express request object.
+   * @param {object} res - Express response object.
+   * @param {Function} next - Express next middleware function.
+   */
+    async getEvents (events, page) {
+      const activitiesUrl = `https://gitlab.lnu.se/api/v4/events?per_page=100&page=${page}`
+
+      const activitiesResponse = await fetch(activitiesUrl, {
+        method: 'GET',
+        headers: {
+          Authorization: 'Bearer ' + tokenResponseJSON.access_token
+        }
+      })
+
+      const activitiesResponseJSON = await activitiesResponse.json()
+
+      console.log(activitiesResponseJSON)
+
+      let i = 0
+      activitiesResponseJSON.forEach(responseEvent => {
+        if (events.length < 101) {
+          const event = {
+            action_name: responseEvent.action_name,
+            created_at_date: responseEvent.created_at.substring(0, 10),
+            created_at_time: responseEvent.created_at.substring(11, 16),
+            id: i
+          }
+          events.push(event)
+        }
+        i++
+      });
+  }
+
+  
 
   /**
    * Determines whether the incoming Issue event Webhook is caused by
