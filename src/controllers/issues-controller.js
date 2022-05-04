@@ -86,25 +86,37 @@ export class IssuesController {
 
         console.log(userResponseJSON)
 
-        const activitiesUrl = 'https://gitlab.lnu.se/api/v4/events'
+        const activitiesUrl = 'https://gitlab.lnu.se/api/v4/events?per_page=100'
 
         const activitiesResponse = await fetch(activitiesUrl, {
           method: 'GET',
           headers: {
-            Authorization: 'Bearer ' + tokenResponseJSON.access_token
+            Authorization: 'Bearer ' + tokenResponseJSON.access_token,
+            scope: 100
           }
         })
 
         const activitiesResponseJSON = await activitiesResponse.json()
 
-        //console.log(activitiesResponseJSON)
+        console.log(activitiesResponseJSON)
 
-        const userInfo = {
-          name: userResponseJSON.name,
-          username: userResponseJSON.username,
-        }
+        const events = []
 
-        res.render('real-time-issues/user', { userResponseJSON })
+        let i = 0
+        activitiesResponseJSON.forEach(responseEvent => {
+          if (i < 101) {
+            const event = {
+              action_name: responseEvent.action_name,
+              created_at: responseEvent.created_at
+            }
+            events.push(event)
+          }
+          i++
+        });
+
+        console.log('events: ' + events.length)
+
+        res.render('real-time-issues/user', { userResponseJSON, events })
       } catch (error) {
         next(error)
       }
