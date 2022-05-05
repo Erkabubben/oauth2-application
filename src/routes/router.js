@@ -8,11 +8,11 @@
 
 import express from 'express'
 import createError from 'http-errors'
-import { router as gitLabRouter } from './gitLab-router.js'
+import { router as gitlabRouter } from './gitlab-router.js'
 
 export const router = express.Router()
 
-router.use('/', gitLabRouter)
+router.use('/', gitlabRouter)
 
 // Catch 404 (ALWAYS keep this as the last route).
 router.use('*', (req, res, next) => next(createError(404)))

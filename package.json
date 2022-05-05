@@ -1,7 +1,7 @@
 {
   "name": "assignment-w1-oauth",
   "version": "1.0.0",
-  "description": "1DV027 - Examination Assignment Module B - Real Time Web Application",
+  "description": "1DV027 - Assignment WT1 - OAuth",
   "type": "module",
   "main": "src/server.js",
   "scripts": {
@@ -18,6 +18,7 @@
   "license": "MIT",
   "private": true,
   "dependencies": {
+    "csurf": "^1.11.0",
     "express": "^4.17.1",
     "express-hbs": "^2.3.4",
     "express-session": "^1.17.1",
