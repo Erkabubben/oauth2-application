@@ -105,6 +105,12 @@ export class Controller {
     const APP_SECRET = process.env.APP_SECRET
     const RETURNED_CODE = req.query.code
 
+    // Ensures that the state string parameter matches the state variable stored in req.session.
+    if (req.query.state !== req.session.state)
+    {
+      next(new Error('STATE strings does not match!'))
+    }
+
     const REDIRECT_URI = process.env.REDIRECT_URI
     const parameters = `client_id=${APP_ID}&client_secret=${APP_SECRET}&code=${RETURNED_CODE}&grant_type=authorization_code&redirect_uri=${REDIRECT_URI}`
 
