@@ -7,6 +7,7 @@
  */
 
 import fetch from 'node-fetch'
+import crypto from 'crypto'
 
 /**
  * Encapsulates a controller.
@@ -39,7 +40,8 @@ export class Controller {
     try {
       const APP_ID = process.env.APP_ID
       const REDIRECT_URI = process.env.REDIRECT_URI
-      const STATE = ''
+      const STATE = crypto.randomBytes(64).toString('hex')
+      req.session.state = STATE
       const REQUESTED_SCOPES = 'read_user'
       res.redirect(`https://gitlab.lnu.se/oauth/authorize?client_id=${APP_ID}&redirect_uri=${REDIRECT_URI}&response_type=code&state=${STATE}&scope=${REQUESTED_SCOPES}`)
     } catch (error) {
@@ -102,6 +104,7 @@ export class Controller {
     const APP_ID = process.env.APP_ID
     const APP_SECRET = process.env.APP_SECRET
     const RETURNED_CODE = req.query.code
+
     const REDIRECT_URI = process.env.REDIRECT_URI
     const parameters = `client_id=${APP_ID}&client_secret=${APP_SECRET}&code=${RETURNED_CODE}&grant_type=authorization_code&redirect_uri=${REDIRECT_URI}`
 
