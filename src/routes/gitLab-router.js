@@ -15,5 +15,5 @@ const controller = new Controller()
 
 // Map HTTP verbs and route paths to controller actions.
 router.get('/', controller.index)
-router.get('/gitLab', controller.gitLab)
+router.get('/gitlab', controller.gitlab)
 router.get('/user', controller.user)

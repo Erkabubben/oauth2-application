@@ -20,6 +20,7 @@ export class Controller {
    * @param {Function} next - Express next middleware function.
    */
   async index (req, res, next) {
+    console.log('Called controller.index')
     try {
       res.render('gitlab-oauth/index')
     } catch (error) {
@@ -34,7 +35,7 @@ export class Controller {
    * @param {object} res - Express response object.
    * @param {Function} next - Express next middleware function.
    */
-  async gitLab (req, res, next) {
+  async gitlab (req, res, next) {
     try {
       const APP_ID = process.env.APP_ID
       const REDIRECT_URI = process.env.REDIRECT_URI
