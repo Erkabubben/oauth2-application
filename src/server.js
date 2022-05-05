@@ -15,7 +15,6 @@ import { dirname, join } from 'path'
 import { fileURLToPath } from 'url'
 import { router } from './routes/router.js'
 import http from 'http'
-import csurf from 'csurf'
 
 /**
  * The main function of the application.
