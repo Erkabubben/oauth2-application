@@ -106,8 +106,7 @@ export class Controller {
     const RETURNED_CODE = req.query.code
 
     // Ensures that the state string parameter matches the state variable stored in req.session.
-    if (req.query.state !== req.session.state)
-    {
+    if (req.query.state !== req.session.state) {
       next(new Error('STATE strings does not match!'))
     }
 
