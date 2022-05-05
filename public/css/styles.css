@@ -3,7 +3,10 @@ html {
 }
 
 a#gitlab-button {
-  text-align: center;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 256px;
 }
 
 .activities-table tr th, .activities-table tr td {
@@ -36,7 +39,7 @@ body {
 header {
   width: 100%;
   height: max-content;
-  background-color:	#661616f3;
+  background-color:	#806d19f3;
   display: grid;
   user-select: none;
   grid-template-columns: max-content auto max-content;
@@ -65,7 +68,7 @@ header ul#leftlist, header ul#rightlist {
   margin: 0;
   padding: 0;
   overflow: hidden;
-  background-color: #661616f3;
+  background-color: #806d19f3;
   vertical-align: middle;
 }
 
@@ -99,7 +102,7 @@ header ul li a {
 }
 
 header ul li a:hover {
-  background-color:	#871111;
+  background-color:	#bda418;
 }
 
 #header-username {
@@ -137,7 +140,7 @@ h1, h2, h3 {
 footer {
   box-sizing: border-box;
   grid-area: footer;
-  background-color:	#871111f1;
+  background-color:	#6a5d14f1;
   position: relative;
 }
 
@@ -177,151 +180,10 @@ footer p {
   margin: 0;
 }
 
-div.issue {
-  width: auto;
-  border: solid black 2px;
-  background-color: white;
-  border-radius: 6px;
-  padding: 0;
-  margin: 0.5rem 0;
-}
-
-.issue p, pre {
-  width: auto;
-  overflow-x: auto;
-  font-size: 0.8rem;
-  margin: 0.5rem;
-  padding: 0;
-}
-
-.issue-header {
-  display: grid;
-  background-color:	#871111f1;
-  color: rgb(255, 255, 255);
-  padding: 0.5rem;
-  grid-template-columns: max-content auto min-content max-content;
-  grid-template-rows: max-content;
-  grid-template-areas:
-    "open-close-button title avatar user-info"
-}
-
-.issue-header form {
-  grid-area: open-close-button;
-  line-height: 0em;
-  padding: 0;
-  margin: 0;
-  overflow: hidden;
-}
-
-.issue-header.edit-issue-title {
-  display: block;
-}
-
-.issue-header.edit-issue-title input {
-  grid-area: none;
-  line-height: 0em;
-  padding: 0.5em;
-  width: 100%;
-  overflow: hidden;
-  font-size: 0.8rem;
-  margin: 0;
-}
-
-.issue-header button {
-  margin: 0;
-  background-color: white;
-  border: solid 2px grey;
-  height: 2em;
-  width: 2em;
-  padding: 0;
-  border-radius: 6px;
-  background-image: url('../img/check.png');
-  overflow: hidden;
-}
-
-.issue-header button:hover {
-  background-color: rgb(224, 224, 224);
-}
-
-.issue-header button img {
-  margin: auto;
-  padding: 0;
-  height: 90%;
-  width: 90%;
-  vertical-align: middle;
-  overflow: hidden;
-}
-
-.issue-header h3 {
-  padding-left: 0;
-  margin: auto auto auto 0.5rem;
-  grid-area: title;
-  vertical-align: middle;
-}
-
-.issue-header img.avatar {
-  grid-area: avatar;
-  padding: 0px;
-  width: 1.5em;
-  border: solid black 2px;
-  border-radius: 6px;
-}
-
-.issue-header h4.user-info {
-  margin: auto 0 auto 0.5rem;
-  padding: 0;
-  vertical-align: middle;
-  grid-area: user-info;
-}
-
-.issue-body {
-  display: block;
-  background-color: #d4d4d4;
-  border: solid black 1px;
-  margin: 0.5rem 0.5rem 0.5rem 0.5rem;
-}
-
-.issue-footer {
-  display: grid;
-  width: auto;
-  position: relative;
-  margin-top: 0;
-  grid-template-columns: auto max-content;
-  grid-template-rows: max-content;
-  grid-template-areas:
-    ".  buttonlist"
-}
-
-.issue-footer p {
-  font-size: 0.8rem;
-  text-align: right;
-}
-
-.issue-footer a {
-  font-size: 1rem;
-  text-decoration: none;
-}
-
-.issue-footer ul {
-  grid-area: buttonlist;
-  display: flex;
-  flex-direction: row;
-  list-style-type: none;
-  height: max-content;
-  padding: 0px;
-  position: relative;
-  margin-top: 8px;
-}
-
-.issue-footer ul li {
-  margin: 0px;
-  padding: 0px;
-}
-
 a.button-link, button.button-link {
   color: white;
   text-align: center;
-  background-color:	#661616f3;
+  background-color:	#806d19f3;
   text-decoration: none;
   margin: 0 0.5rem 0 0;
   padding: 0.5rem;
@@ -331,7 +193,7 @@ a.button-link, button.button-link {
 }
 
 a.button-link:hover, button.button-link:hover {
-  background-color:	#b61a1af3;
+  background-color:	#b9a325f1;
 }
 
 form#login {
@@ -385,26 +247,6 @@ div#profile-footer {
   width: auto;
   display: block;
   text-align: right;
-}
-
-form div.issue {
-  box-sizing: border-box;
-}
-
-form div.issue div.issue-header input {
-  box-sizing: border-box;
-  width: 100%;
-  height: 1.75rem;
-}
-
-form div.issue div.issue-body textarea {
-  box-sizing: border-box;
-  width: 100%;
-  height: 320px;
-  resize: none;
-  border: none;
-  background-color: #d4d4d4;
-  padding: 0.5rem;
 }
 
 form button.center-button {
