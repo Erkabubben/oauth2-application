@@ -9,6 +9,10 @@ a#gitlab-button {
   width: 256px;
 }
 
+.centered-text {
+  text-align: center;
+}
+
 .activities-table tr th, .activities-table tr td {
   width: 160px;
 }
